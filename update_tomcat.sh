@@ -48,7 +48,9 @@ run() {
 	(cd "${DIST_PATH}" && curl -O "${TOMCAT_URL}")
 	tar -zxf ${DIST_PATH}/apache-tomcat*.tar.gz -C "${EXTRACTED_PATH}"
 	
-	cp -a ${LIB_PATH}/* ${EXTRACTED_PATH}/apache-tomcat*/lib/
+	if [ -d "${LIB_PATH}" ]; then
+		cp -a ${LIB_PATH}/* ${EXTRACTED_PATH}/apache-tomcat*/lib/
+	fi
 	
 	INSTALLED=`ls ${INSTALL_DIST} | grep apache-tomcat-8 | head -1`
 	echo "INSTALL=${INSTALLED}"
@@ -74,7 +76,7 @@ run
 case "${DISTRO}" in
 "ubuntu")
 	sudo cp -a ./init.d/tomcat8-ubuntu /etc/init.d/${START_SCRIPT_NAME} && sudo chmod a+x /etc/init.d/${START_SCRIPT_NAME} && sudo chown root:root /etc/init.d/${START_SCRIPT_NAME}
-	sudo /usr/sbin/update-rc.d ${START_SCRIPT_NAME} default
+	sudo /usr/sbin/update-rc.d -f ${START_SCRIPT_NAME} default
 	sudo /usr/sbin/update-rc.d ${START_SCRIPT_NAME} enable
 	;;
 "redhat")
