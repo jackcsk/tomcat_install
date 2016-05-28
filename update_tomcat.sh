@@ -61,7 +61,8 @@ run() {
 	fi
 	
 	[ -L "${INSTALL_DIST_SYMLINK}" ] && sudo rm ${INSTALL_DIST_SYMLINK}
-	sudo mv ${EXTRACTED_PATH}/apache-tomcat* ${INSTALL_DIST} && sudo ln -s ${INSTALL_DIST} ${INSTALL_DIST_SYMLINK}
+	TOMCAT_VERSION=`cd ${EXTRACTED_PATH} && ls -d apache-tomcat*`
+	sudo mv ${EXTRACTED_PATH}/${TOMCAT_VERSION} ${INSTALL_DIST} && sudo ln -s ${INSTALL_DIST}${TOMCAT_VERSION} ${INSTALL_DIST_SYMLINK}
 }
 
 DISTRO=$(distroName)
